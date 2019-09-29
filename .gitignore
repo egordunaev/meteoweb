@@ -1,0 +1,4 @@
+.env
+/.vscode
+server/__pycache__
+pipfile.lock
