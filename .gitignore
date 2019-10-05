@@ -1,4 +1,4 @@
 .env
 /.vscode
-server/__pycache__
+*__pycache__
 pipfile.lock
