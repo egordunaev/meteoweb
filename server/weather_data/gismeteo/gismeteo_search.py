@@ -3,7 +3,7 @@ import requests
 import os
 from bs4 import BeautifulSoup
 
-gismeteo_addr = os.environ.get("GISMETEO_ADDR", "")
+gismeteo_addr = "https://gismeteo.com"
 
 
 class GisMeteoSearcher:
@@ -17,6 +17,6 @@ class GisMeteoSearcher:
             page = requests.get(f"{gismeteo_addr}/search/{self.city_name}/", headers={"User-Agent": "Mozilla/5.0"})
             soup = BeautifulSoup(page.content, "html.parser")
             cities = soup.find_all("div", {"class": "catalog_list"})  # .find_all("div", {"class": "catalog_item"})
-            return "done"  # temp
+            return cities  # temp
         except Exception as ex:
             raise ex
