@@ -4,3 +4,4 @@ server/__pycache__
 server/weather_data/__pycache__
 server/weather_data/gismeteo/__pycache__
 pipfile.lock
+node_modules
