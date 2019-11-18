@@ -15,8 +15,8 @@ class OpenWeather:
         with open("server/weather_data/openweathermap/city.list.json", encoding="utf8") as cities_json:
             cities = json.load(cities_json)
         for item in cities:
-            if item["name"].lower() is city and item["country"] is country:
-                return item
+            if item["name"].lower() == city and item["country"] == country:
+                return item["id"]
         return None
 
     def get_weather(self, city_id):

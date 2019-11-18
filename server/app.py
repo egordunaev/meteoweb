@@ -15,4 +15,4 @@ def output(country, city):
 @app.route('/get-open-weather/<country_name>/<city_name>')
 def open_weather_output(country_name, city_name):
     open_weather = OpenWeather(country_name, city_name)
-    return open_weather.get_weather(555312)
+    return open_weather.get_weather(open_weather.city_id)
