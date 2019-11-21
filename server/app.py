@@ -1,6 +1,8 @@
 from flask import Flask, escape, request
 from weather_data.gismeteo.gismeteo_search import GisMeteoSearcher
 from weather_data.openweathermap.openweathermap import OpenWeather
+from db.db import WeatherDB  # for testing
+import datetime
 
 app = Flask(__name__)
 
@@ -15,4 +17,6 @@ def output(country, city):
 @app.route('/get-open-weather/<country_name>/<city_name>')
 def open_weather_output(country_name, city_name):
     open_weather = OpenWeather(country_name, city_name)
-    return open_weather.get_weather(open_weather.city_id)
+    weather_db = WeatherDB()
+    weather_db.add_weather_data(open_weather.city["id"], open_weather.weather, datetime.datetime.now().strftime("%Y%m%d%H%M"))
+    return "Done"
