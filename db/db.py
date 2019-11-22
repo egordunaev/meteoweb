@@ -6,6 +6,7 @@ class WeatherDB(MongoClient):
         self.client = MongoClient('localhost', 27017)
         self.meteoweb_db = self.client["meteoweb"]
         self.weather_col = self.meteoweb_db["weather"]
+        self.cities_col = self.meteoweb_db["cities"]
 
     def get_city(self, city_id):
         return self.weather_col.find_one({"id": city_id})

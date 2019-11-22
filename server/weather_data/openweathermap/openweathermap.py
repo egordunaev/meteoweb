@@ -19,5 +19,5 @@ class OpenWeather:
         return None
 
     def get_weather(self, city_id):
-        self.weather = requests.get(f"https://api.openweathermap.org/data/2.5/weather?id={city_id}&APPID={api_key}", headers={"User-Agent": "Mozilla/5.0"})
+        self.weather = requests.get(f"https://api.openweathermap.org/data/2.5/weather?id={city_id}&APPID={api_key}&units=metric", headers={"User-Agent": "Mozilla/5.0"})
         return self.weather.json()
