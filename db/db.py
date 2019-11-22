@@ -16,13 +16,16 @@ class WeatherDB(MongoClient):
     def get_by_country(self, locale):
         return self.weather_col.find({"country": locale})
 
-    def create_city(self, city):
-        self.weather_col.insert(city)
+    def add_city(self, city):
+        if self.get_city(city["id"]) is None:
+            self.weather_col.insert(city)
 
     def delete_city(self, city_id):
-        self.weather_col.delete_one({"id": city_id})
+        if self.get_city(city_id) is not None:
+            self.weather_col.delete_one({"id": city_id})
 
     def add_weather_data(self, city_id, weather_data, timestamp):
-        _weather = self.get_city(city_id)["weather"]
-        _weather.update({timestamp: weather_data})
-        self.weather_col.update_one({"id": city_id}, {"$set": {"weather": _weather}})
+        if self.get_city(city_id) is not None:
+            _weather = self.get_city(city_id)["weather"]
+            _weather.update({timestamp: weather_data})
+            self.weather_col.update_one({"id": city_id}, {"$set": {"weather": _weather}})
