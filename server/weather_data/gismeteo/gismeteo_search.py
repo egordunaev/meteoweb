@@ -12,11 +12,29 @@ class GisMeteoSearcher:
         self.district_name = district_name
         self.country = country
 
-    def get_city_link(self, city_name, country, district_name=None):
+    def get_link(self, city_name, country, district_name=None):
         try:
-            page = requests.get(f"{gismeteo_addr}/search/{self.city_name}/", headers={"User-Agent": "Mozilla/5.0"})
+            return self.get_country_link(country)
+        except Exception as ex:
+            raise ex
+
+    def get_city_link(self, city_name, country_link):
+        try:
+            page = requests.get(f"{gismeteo_addr}{country_link}", headers={"User-Agent": "Mozilla/5.0"})
             soup = BeautifulSoup(page.content, "html.parser")
-            cities = soup.find_all("div", {"class": "catalog_list"})  # .find_all("div", {"class": "catalog_item"})
-            return "done"  # temp
+            soup_city = soup.find_all("div", {"class": "catalog_list catalog_list_ordered"})
+        except Exception as ex:
+            raise ex
+
+    def get_country_link(self, country):
+        try:
+            page = requests.get(f"{gismeteo_addr}/catalog/", headers={"User-Agent": "Mozilla/5.0"})
+            soup = BeautifulSoup(page.content, "html.parser")
+            soup_country = soup.find_all("div", {"class": "catalog_item"})  # .find_all("div", {"class": "catalog_item"})
+            for item in soup_country:
+                _country = item.contents[0].contents[1].strip()
+                if country in _country:
+                    return item.contents[0].attrs["href"]
+            return soup_country
         except Exception as ex:
             raise ex
