@@ -1,9 +1,13 @@
 from pymongo import MongoClient
+from os import environ
+
+db_host = environ.get("DB_HOST", "")
+db_port = environ.get("DB_PORT", "")
 
 
 class WeatherDB(MongoClient):
     def __init__(self):
-        self.client = MongoClient('localhost', 27017)
+        self.client = MongoClient(db_host, int(db_port))
         self.meteoweb_db = self.client["meteoweb"]
         self.weather_col = self.meteoweb_db["weather"]
         self.cities_col = self.meteoweb_db["cities"]
