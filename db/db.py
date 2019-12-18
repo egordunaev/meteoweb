@@ -13,7 +13,7 @@ class WeatherDB(MongoClient):
         self.weather_col = self.meteoweb_db["weather"]
 
     def get_city(self, city_id):
-        return self.weather_col.find_one({"id": city_id})
+        return self.weather_col.find_one({"id": int(city_id)})
 
     def get_all(self):
         return self.weather_col.find()
@@ -26,14 +26,19 @@ class WeatherDB(MongoClient):
 
     def delete_city(self, city_id):
         if self.get_city(city_id) is not None:
-            self.weather_col.delete_one({"id": city_id})
+            self.weather_col.delete_one({"id": int(city_id)})
 
     def add_weather_data(self, city_id, weather_data, timestamp):
         _city = self.get_city(city_id)
         if _city is not None:
             _weather = _city["weather"]
             _weather.update({timestamp: weather_data})
-            self.weather_col.update_one({"id": city_id}, {"$set": {"weather": _weather}})
+            self.weather_col.update_one({"id": int(city_id)}, {"$set": {"weather": _weather}})
+
+    def update_scheduling_status(self, city_id, status):
+        _city = self.get_city(city_id)
+        if _city is not None:
+            self.weather_col.update_one({"id": int(city_id)}, {"$set": {"scheduled": status}})
 
 
 class CitiesDB(MongoClient):
@@ -44,8 +49,8 @@ class CitiesDB(MongoClient):
         if self.cities is None:
             self.create_cities()
 
-    def get_city(self, locale, city_name):
-        return self.cities.find_one({"country": locale, "name": city_name.title()})
+    def get_city(self, city_id):
+        return self.cities.find_one({"id": int(city_id)})
 
     def get_cities_by_country(self, locale):
         return self.cities.find({"country": locale})
