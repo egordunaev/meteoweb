@@ -10,6 +10,7 @@ flake8 = "*"
 flask = "*"
 requests = "*"
 bs4 = "*"
+pymongo = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"
