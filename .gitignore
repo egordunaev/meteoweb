@@ -1,6 +1,6 @@
 .env
 /.vscode
 *__pycache__
-pipfile.lock
+Pipfile.lock
 *node_modules
 *city.list.json
